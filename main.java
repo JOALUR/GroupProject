@@ -1,10 +1,12 @@
 import java.util.Scanner;
+import java.io.*;
 
 public class main {
 
-	public static void main(String[] args) {
+	public static void main(String[] args) throws IOException {
   Scanner scanner = new Scanner(System.in);
-        
+
+	fileWriter.write("My new data!!");
         int SelectedMenuOpt;
         do {
             DisplayMenu();
@@ -43,5 +45,18 @@ public static void displayMenu(){
             System.out.print("Enter your choice: ");
 
 	}
+public static void Logger(String data) {
+	
+	try {
+	File inputfile = new File("c:\\temp\\log.txt");
+	FileWriter fileWriter = new FileWriter(inputfile, true);
+	fileWriter.write("Game initialized.");
 
+          fileWriter.close();
+	}
+		catch(Exception ex){
+			
+		}
+	
+	}
 }
