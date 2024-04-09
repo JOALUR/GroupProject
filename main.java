@@ -1,6 +1,6 @@
 import java.util.Scanner;
 
-public class Main {
+public class main {
 
 	public static void main(String[] args) {
   Scanner scanner = new Scanner(System.in);
@@ -33,6 +33,14 @@ public class Main {
         
         scanner.close();
     }
+public static void displayMenu(){
+	    System.out.println("Welcome to the Game Menu");
+            System.out.println("1. Rules");
+            System.out.println("2. Play Against Computer");
+            System.out.println("3. Play 2 Player Game");
+            System.out.println("4. See High Score");
+            System.out.println("5. Quit");
+            System.out.print("Enter your choice: ");
 
 	}
 
