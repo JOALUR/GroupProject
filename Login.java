@@ -1,3 +1,4 @@
+package aaaProject;
 import java.io.*;
 import java.util.*;
 
@@ -22,7 +23,8 @@ class User {
 class AccountManager {
     private List<User> users;
     private final String login_data = "users.txt";
-
+    private boolean isLoggedIn = false;
+    
     public AccountManager() {
         this.users = new ArrayList<>();
         loadLoginData();
@@ -69,10 +71,14 @@ class AccountManager {
         for (User user : users) {
             if (user.getUsername().equals(username) && user.getPassword().equals(password)) {
                 System.out.println("Login successful!");
+                isLoggedIn = true;
                 return true;
             }
         }
         System.out.println("Invalid username or password!");
         return false;
+    }
+        public boolean isLoggedIn() {
+            return isLoggedIn;
     }
 }
