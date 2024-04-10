@@ -30,7 +30,7 @@ class AccountManager {
     }
     
     
-    // read lines in users.txt. separates usrname and pw with a comma, creates user obj and add obj to list <User>
+    // read lines in users.txt. separates usrname and pw with a comma, creates user obj and add obj to list User<>
     private void loadLoginData() {
         try (BufferedReader br = new BufferedReader(new FileReader(login_data))) {
             String line;
