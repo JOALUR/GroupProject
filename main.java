@@ -1,8 +1,7 @@
-package aaaProject;
 import java.util.Scanner;
 import java.io.*;
 
-public class gameMain {
+public class main {
 
 	public static void main(String[] args) throws IOException {
   Scanner scanner = new Scanner(System.in);
