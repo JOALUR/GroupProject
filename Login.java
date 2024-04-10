@@ -1,83 +1,111 @@
+import java.util.Scanner;
 import java.io.*;
-import java.util.*;
 
-class User {
-    private String username;
-    private String password;
+public class gameMain {
 
-    public User(String username, String password) {
-        this.username = username;
-        this.password = password;
+	public static void main(String[] args) throws IOException {
+  Scanner scanner = new Scanner(System.in);
+  AccountManager accountManager = new AccountManager();
+  LogStuff("Game initialized.");
+ 
+  login();
+  if(accountManager.isLoggedIn()) {
+	  System.out.println("11");
+  }
+
+  int SelectedMenuOpt;
+  while (true) {
+	  // after login shit just stops working idk how to fix it -eric
+        if(accountManager.isLoggedIn()) {
+            displayMenu();
+            
+                SelectedMenuOpt = scanner.nextInt(); 
+                
+            switch (SelectedMenuOpt) {
+                case 1:
+                	System.out.println("rules\n");
+                 //   displayRules();
+                	break;
+                case 2:
+                	System.out.println("1 player");
+                 //   playAgainstComputer();
+                    break;
+                case 3:
+                	System.out.println("2player");
+                   // playTwoPlayerGame();
+                    break;
+                case 4:
+                	System.out.println("high score");
+                  //  seeHighScore();
+                    break;
+                case 5:
+                    System.out.println("Exiting game.");
+                    break;
+                default:
+                    System.out.println("Please enter a number between 1 and 5.");
+            }
+        }
+  
+        scanner.close();
+  }	
+ }
+
+public static void displayMenu(){
+	System.out.println("Main Menu");
+	System.out.println("1. Rules");
+	System.out.println("2. Play Against Computer");
+	System.out.println("3. Play 2 Player Game");
+	System.out.println("4. See High Score");
+	System.out.println("5. Quit");
+	System.out.print("Enter your choice: ");
+
+	}
+
+public static void login() {
+    Scanner scanner = new Scanner(System.in);
+    AccountManager accountManager = new AccountManager();
+
+    System.out.println("1. Create Account");
+    System.out.println("2. Login");
+    System.out.println("Enter your choice:");
+
+    int choice = scanner.nextInt();
+    scanner.nextLine();
+
+    switch (choice) {
+        case 1:
+            System.out.println("Enter username:");
+            String newUsername = scanner.nextLine();
+            System.out.println("Enter password:");
+            String newPassword = scanner.nextLine();
+            accountManager.createUser(newUsername, newPassword);
+            break;
+        case 2:
+            System.out.println("Enter username:");
+            String username = scanner.nextLine();
+            System.out.println("Enter password:");
+            String password = scanner.nextLine();
+            accountManager.loginUser(username, password);
+            scanner.close();
+            return;
+            
+        default:
+            System.out.println("Invalid choice");
+            break;
     }
-
-    public String getUsername() {
-        return username;
-    }
-
-    public String getPassword() {
-        return password;
-    }
+    scanner.close();
 }
 
-class AccountManager {
-    private List<User> users;
-    private final String login_data = "users.txt";
-    private boolean isLoggedIn = false;
-    
-    public AccountManager() {
-        this.users = new ArrayList<>();
-        loadLoginData();
-    }
-
-    private void loadLoginData() {
-        try (BufferedReader br = new BufferedReader(new FileReader(login_data))) {
-            String line;
-            while ((line = br.readLine()) != null) {
-                String[] parts = line.split(",");
-                String username = parts[0];
-                String password = parts[1];
-                users.add(new User(username, password));
-            }
-        } catch (IOException ex) {
-            ex.printStackTrace();
-        }
-    }
-
-    private void saveLoginData(User user) {
-        try (BufferedWriter bw = new BufferedWriter(new FileWriter(login_data, true))) {
-            bw.write(user.getUsername() + "," + user.getPassword());
-            bw.newLine();
-        } catch (IOException ex) {
-            ex.printStackTrace();
-        }
-    }
-
-    public boolean createUser(String username, String password) {
-        for (User user : users) {
-            if (user.getUsername().equals(username)) {
-                System.out.println("Username already exists.");
-                return false;
-            }
-        }
-        User newLogin = new User(username, password);
-        users.add(newLogin);
-        saveLoginData(newLogin);
-        System.out.println("Account created successfully!");
-        return true;
-    }
-
-    public boolean loginUser(String username, String password) {
-        for (User user : users) {
-            if (user.getUsername().equals(username) && user.getPassword().equals(password)) {
-                System.out.println("Login successful!");
-                isLoggedIn = true;
-                return true;
-            }
-        }
-        System.out.println("Invalid username or password!");
-        return false;
-    }
-        public boolean isLoggedIn() {
-            return isLoggedIn;
+public static void LogStuff(String data) {
+	File log = new File("c:\\temp\\log.txt");
+	
+	try (BufferedWriter bw = new BufferedWriter(new FileWriter(log, true))) {	
+		bw.write(data);
+        bw.newLine();  
+		bw.close();
+	}
+ 	catch(IOException ex){
+ 	   ex.printStackTrace();
+	}
     }
 }
