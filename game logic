@@ -1,79 +1,82 @@
+package aaaProject;
+
 import java.util.Scanner;
 import java.util.Random;
+
 public class GameLogic {
-	
-  private static final Scanner sc = new Scanner(System.in);
-  private static final Random random = new Random();
-	public static final String guesses[] = {
-			 "java", "switch", "main", "method",
-            "function", "string", "integer", "ifelse", "scanner", "boolean"};
+	private static final Scanner sc = new Scanner(System.in);
+	private static final Random random = new Random();
+	public static final String guesses[] = { "java", "switch", "main", "method", "function", "string", "integer",
+			"ifelse", "scanner", "boolean" };
 
 	public static void main(String[] args) {
 
 //		while(playing) {
-		
-			System.out.println("game started");
-			int randomNumber = random.nextInt(guesses.length); //random.nextInt(10);
-	        char randomWordToGuess[] = guesses[randomNumber].toCharArray(); // java -> j,a,v,a
-	        int ammountOfGuesses = randomWordToGuess.length; //total tries to guess a word.
-	        char playerGuess[] = new char[ammountOfGuesses];
-	        
-	        for(int i=0; i<playerGuess.length; i++){ // empty dashes at start "_ _ _ _ _ _ _ _"
-	            playerGuess[i] =  '_';
-	        }
-		
-		boolean solved= false;
-		int tries= 0;
-		while(!solved && tries != ammountOfGuesses){
+
+		System.out.println("game started");
+		int randomNumber = random.nextInt(guesses.length); // random.nextInt(10);
+		char randomWordToGuess[] = guesses[randomNumber].toCharArray(); // java -> j,a,v,a
+		int ammountOfGuesses = randomWordToGuess.length; // total tries to guess a word.
+		char playerGuess[] = new char[ammountOfGuesses];
+
+		for (int i = 0; i < playerGuess.length; i++) { // empty dashes at start "_ _ _ _ _ _ _ _"
+			playerGuess[i] = '_';
+		}
+
+		boolean solved = false;
+		int tries = 0;
+		while (!solved && tries != ammountOfGuesses) {
 			System.out.println("Current Guesses: ");
-	        print(playerGuess);
-	        System.out.printf("You have %d guesses left.\n", ammountOfGuesses-tries);
-	        System.out.println("Enter a single character: ");
-	        char input = sc.nextLine().charAt(0);
-	        tries++;
-	        
-	        if(input == '-'){
-	            solved = true;
-	//            playing = false;
-	        } else{
-	            for(int i=0; i<randomWordToGuess.length; i++){
-	                if(randomWordToGuess[i] == input){
-	                    playerGuess[i] = input;
-	                } 
-	            } 
-	            
-	            if(isWordGuessed(playerGuess)){
-	                solved = true;
-	                System.out.println("Congratulations");
-	            }
-	        }
-	    }	
-	    if(!solved){
-	        System.out.println("You ran out of guesses.");
-	    }
-	    
-	    System.out.println("Would you like to play again? (yes/no) ");
-	    String choice = sc.nextLine();
-	    if(choice.equals("no")){
-	    	System.out.println("thank you for playing");
-	//        playing = false;
-	    }
-			
+			print(playerGuess);
+			System.out.printf("You have %d guesses left.\n", ammountOfGuesses - tries);
+			System.out.println("Enter a single character: ");
+			char input = sc.nextLine().charAt(0);
+			tries++;
+
+			if (input == '-') {
+				solved = true;
+				// playing = false;
+			} else {
+				for (int i = 0; i < randomWordToGuess.length; i++) {
+					if (randomWordToGuess[i] == input) {
+						playerGuess[i] = input;
+					}
+				}
+
+				if (isWordGuessed(playerGuess)) {
+					solved = true;
+					System.out.println("Congratulations");
+				}
+			}
+		}
+		if (!solved) {
+			System.out.println("You ran out of guesses.");
+		}
+
+		System.out.println("Would you like to play again? (yes/no) ");
+		String choice = sc.nextLine();
+		if (choice.equals("no")) {
+			System.out.println("thank you for playing");
+			// playing = false;
+		}
+
 //	}
 	}
-	public static void print(char array[]){
-        for(int i=0; i<array.length; i++){ // Assign empty dashes at start "_ _ _ _ _ _ _ _"
-            System.out.print(array[i] + " ");
-        } 
-        System.out.println();
-    }
-	public static boolean isWordGuessed(char[] array){
-        boolean solveCheck = true;
-        for(int i=0; i<array.length; i++){
-            if(array[i] == '_'){
-                solveCheck = false;
-            }
-        }
-        return solveCheck;
-    }
+
+	public static void print(char array[]) {
+		for (int i = 0; i < array.length; i++) { // Assign empty dashes at start "_ _ _ _ _ _ _ _"
+			System.out.print(array[i] + " ");
+		}
+		System.out.println();
+	}
+
+	public static boolean isWordGuessed(char[] array) {
+		boolean solveCheck = true;
+		for (int i = 0; i < array.length; i++) {
+			if (array[i] == '_') {
+				solveCheck = false;
+			}
+		}
+		return solveCheck;
+	}
 }
