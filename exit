@@ -1,0 +1,32 @@
+import java.util.Scanner;
+public class exit {
+
+Scanner scannerObj = new Scanner(system.in);
+int option = 0;
+
+printHeader();
+
+while (option<4) {
+       option = scanner.nextInt();
+
+       switch (option) {
+       case 1
+         Rules();
+         break;
+       case 2
+         PlayerVsPlayer();
+         break
+       case 3
+         PlayerVsAI();
+         break;
+       case 4
+        Exit();
+        break;
+    }
+}
+scanner.close();
+}
+      public static void PrintHeader(){
+      system.out.println
+       
+    
