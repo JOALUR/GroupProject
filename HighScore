@@ -1,0 +1,83 @@
+import java.util.Arrays;
+
+public class Highscore {
+
+	//max number of high scores displayed
+	private static final int Max_High_Scores = 5;
+	
+	//sample high scores in an array, can put users high scores in here
+	private static int[] highscores = {10000, 8000, 7500, 4500, 2000};
+	
+	public static void main(String[] args) {
+		// TODO Auto-generated method stub
+	
+		DisplayBoxWithHighScores();
+		
+	}	
+	private static void DisplayBoxWithHighScores()
+	{
+		
+	
+		int width = 25;
+		int height = 8;
+		
+		System.out.println(repeat('*', width));
+		for(int i = 1; i < height; i++)
+		{
+			if(i == height/2)
+			{
+				//display highscores in middle of box
+				int start = (width - 13) /2;
+				DisplayHighScore(start);
+			}
+			else
+			{
+				System.out.println('*' + repeat(' ', width - 2) + '*');
+			}
+		}
+		System.out.println(repeat('*', width));
+		
+	}
+	
+	
+	private static void DisplayHighScore(int start) {
+	    int end = start + 12;
+	    String HighScoreTitle = " High Scores:  ";
+	    StringBuilder line = new StringBuilder("*");
+	    for (int i = 1; i < start; i++) {
+	        line.append(' ');
+	    }
+	    line.append(HighScoreTitle);
+	    for (int i = end + 1; i < 22; i++) {
+	        line.append(' ');
+	    }
+	    line.append('*');
+	    System.out.println(line);
+
+	    for (int i = 0; i < Math.min(highscores.length, Max_High_Scores); i++) {
+	        line = new StringBuilder("*");
+	        for (int j = 1; j < start; j++) {
+	            line.append(' ');
+	        }
+	        line.append((i + 1) + ".  " + highscores[i]);
+	        int ScoreLength = String.valueOf(highscores[i]).length() + -2;
+	        int RemainingSpaces = end - (start + ScoreLength);
+	        for (int j = 0; j < RemainingSpaces; j++) { // Adjusted loop iteration
+	            line.append(' ');
+	        }
+	        line.append('*');
+	        System.out.println(line);
+	    }
+	}
+
+		
+	
+	
+	private static String repeat(char ch, int count)
+	{
+		char[] buf = new char[count];
+		Arrays.fill(buf, ch);
+		return new String(buf);
+	}
+
+}
