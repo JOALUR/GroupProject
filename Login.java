@@ -1,38 +1,139 @@
 import java.io.*;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Scanner;
 
-class User {
-    private String username;
-    private String password;
+public class AccountManager {
+	 private List<User> users;
+	 //file path for storing user login
+	 private final String loginDataFile = "C:\\temp\\users.txt";
+	 //file path for storing log messages
+	 private final String logFile = "C:\\temp\\log.txt";
+	 private boolean isLoggedIn = false;
+	
+    public static void main(String[] args){
 
-    public User(String username, String password) {
-        this.username = username;
-        this.password = password;
+    	AccountManager accountManager = new AccountManager();
+    	accountManager.Login();
+    	
     }
+   
 
-    public String getUsername() {
-        return username;
-    }
+    public void Login() {
+		
+    	Scanner scannerObj = new Scanner(System.in);
+    	log("Application started"); 
+    	
+    	//welcome user and ask them to either login or register
+		System.out.println("Welcome");
+		System.out.println("1. Login");
+		System.out.println("2. Register");
+		System.out.print("Choose an option: ");
+		int option = scannerObj.nextInt();
+		scannerObj.nextLine();
+	
+		if(option == 1)
+		{
+			login(scannerObj);
+		}
+		else if(option == 2)
+		{
+			register(scannerObj);
+		}
+		else 
+		{
+			System.out.println("Invalid option!");
+		}
+		
+		scannerObj.close();
 
-    public String getPassword() {
-        return password;
-    }
-}
-
-class AccountManager {
-    private List<User> users;
-    private final String login_data = "users.txt";
-    private boolean isLoggedIn = false;
+		
+	}
     
+    private void register(Scanner scannerObj)
+    {
+    	//user registration
+    	System.out.println("Enter username: ");
+		String username = scannerObj.nextLine();
+		System.out.println("Enter password: ");
+		String password = scannerObj.nextLine();
+		if(createUser(username, password))
+		{
+			System.out.println("Registration Complete!");
+			//log message for successful registration
+			log("User reigistered: " + username);
+		}
+		else
+		{
+			System.out.println("Registration failed");
+			//log message for failed registration
+			log("Failed to register user: " + username);
+		}
+    	
+    }
+    
+    private void login(Scanner scannerObj)
+    {
+    	//user login
+    	System.out.println("Enter username: ");
+		String username = scannerObj.nextLine();
+		System.out.println("Enter password: ");
+		String password = scannerObj.nextLine();
+		if(loginUser(username, password))
+		{
+			System.out.println("Login Completed!");
+			//log message for successful login
+			log("User logged in: " + username);
+		}
+		else
+		{
+			System.out.println("Login Failed...");
+			//log message for failed login
+			log("Failed login attempt: " + username);
+		}
+    }
+
+
     public AccountManager() {
         this.users = new ArrayList<>();
+        //load user login data
         loadLoginData();
     }
-    
-    
-    // read lines in users.txt. separates usrname and pw with a comma, creates user obj and add obj to list User<>
+
+    public boolean createUser(String username, String password) {
+    	//creating user
+        try {
+            User newUser = new User(username, password);
+            //save new user data to file
+            saveLoginData(newUser);
+            users.add(newUser);
+            return true;
+        } catch (IOException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+    public boolean loginUser(String username, String password) {
+    	//authenticate user log in
+        for(User user : users) {
+            if (user.getUsername().equals(username) && user.getPassword().equals(password)) {
+                System.out.println("Login successful!");
+                isLoggedIn = true;
+                return true;
+            }
+        }
+        System.out.println("Invalid username or password");
+        return false;
+    }
+
+    public boolean isLoggedIn() {
+        return isLoggedIn;
+    }
+
     private void loadLoginData() {
-        try (BufferedReader br = new BufferedReader(new FileReader(login_data))) {
+    	//loading login data
+        try (BufferedReader br = new BufferedReader(new FileReader(loginDataFile))) {
             String line;
             while ((line = br.readLine()) != null) {
                 String[] parts = line.split(",");
@@ -45,46 +146,23 @@ class AccountManager {
         }
     }
 
-    //write to file
-    private void saveLoginData(User user) {
-        try (BufferedWriter bw = new BufferedWriter(new FileWriter(login_data, true))) {
+    private void saveLoginData(User user) throws IOException {
+    	//save user login data
+        try (BufferedWriter bw = new BufferedWriter(new FileWriter(loginDataFile, true))) {
             bw.write(user.getUsername() + "," + user.getPassword());
             bw.newLine();
-        } catch (IOException ex) {
-            ex.printStackTrace();
         }
     }
-    
-    
-//register
-    public boolean createUser(String username, String password) {
-        for (User user : users) {
-            if (user.getUsername().equals(username)) {
-                System.out.println("Username already exists.");
-                return false;
-            }
-        }
-        User newLogin = new User(username, password);
-        users.add(newLogin);
-        saveLoginData(newLogin);
-        System.out.println("Account created successfully!");
-        return true;
-    }
-    
-    
-//this checks if login input is in users.txt
-    public boolean loginUser(String username, String password) {
-        for (User user : users) {
-            if (user.getUsername().equals(username) && user.getPassword().equals(password)) {
-                System.out.println("Login successful!");
-                isLoggedIn = true;
-                return true;
-            }
-        }
-        System.out.println("Invalid username or password!");
-        return false;
-    }
-        public boolean isLoggedIn() {
-            return isLoggedIn;
+    private void log(String message)
+    {
+    	//log method should write log messages to file named log.txt
+    	try(BufferedWriter bw = new BufferedWriter(new FileWriter(logFile, true)))
+    	{
+    		bw.write(message);
+    		bw.newLine();
+    	} catch(IOException ex) {
+    		ex.printStackTrace();
+    	}
     }
 }
+
