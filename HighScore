@@ -16,8 +16,8 @@ public class Highscore {
 	}	
 	private static void DisplayBoxWithHighScores()
 	{
-		
-	
+	//code for displayed highscore in box of asteriks, tried messing around with it and making it bigger/smaller
+	//depending on how the score is finished we would need to adjust it but this should be good for now and with the sample high scores
 		int width = 25;
 		int height = 8;
 		
@@ -38,7 +38,6 @@ public class Highscore {
 		System.out.println(repeat('*', width));
 		
 	}
-	
 	
 	private static void DisplayHighScore(int start) {
 	    int end = start + 12;
